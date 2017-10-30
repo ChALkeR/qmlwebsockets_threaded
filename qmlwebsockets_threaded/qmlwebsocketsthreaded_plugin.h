@@ -37,8 +37,8 @@
 **
 ****************************************************************************/
 
-#ifndef QMLWEBSOCKET_PLUGIN_H
-#define QMLWEBSOCKET_PLUGIN_H
+#ifndef QMLWEBSOCKETTHREADED_PLUGIN_H
+#define QMLWEBSOCKETTHREADED_PLUGIN_H
 
 #include <QQmlExtensionPlugin>
 
@@ -63,4 +63,4 @@ public:
 
 QT_END_NAMESPACE
 
-#endif // QMLWEBSOCKET_PLUGIN_H
+#endif // QMLWEBSOCKETTHREADED_PLUGIN_H

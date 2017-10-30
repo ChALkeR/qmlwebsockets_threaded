@@ -114,7 +114,7 @@
   Sends \c message to the server.
   */
 
-#include "qqmlwebsocket.h"
+#include "qqmlwebsocketthreaded.h"
 #include <QtWebSockets/QWebSocket>
 
 QT_BEGIN_NAMESPACE

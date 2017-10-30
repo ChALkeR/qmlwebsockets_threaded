@@ -37,8 +37,8 @@
 **
 ****************************************************************************/
 
-#ifndef QQMLWEBSOCKET_H
-#define QQMLWEBSOCKET_H
+#ifndef QQMLWEBSOCKETTHREADED_H
+#define QQMLWEBSOCKETTHREADED_H
 
 #include <QObject>
 #include <QQmlParserStatus>
@@ -119,4 +119,4 @@ private:
 
 QT_END_NAMESPACE
 
-#endif // QQMLWEBSOCKET_H
+#endif // QQMLWEBSOCKETTHREADED_H

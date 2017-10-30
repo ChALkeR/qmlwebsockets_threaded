@@ -37,11 +37,11 @@
 **
 ****************************************************************************/
 
-#include "qmlwebsockets_plugin.h"
+#include "qmlwebsocketsthreaded_plugin.h"
 
 #include <QtQml>
 
-#include "qqmlwebsocket.h"
+#include "qqmlwebsocketthreaded.h"
 
 QT_BEGIN_NAMESPACE
 

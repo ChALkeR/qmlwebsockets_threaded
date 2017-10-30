@@ -2,11 +2,11 @@ QT = core websockets qml qml-private core-private
 
 TARGETPATH = QtWebSockets
 
-HEADERS +=  qmlwebsockets_plugin.h \
-            qqmlwebsocket.h
+HEADERS +=  qmlwebsocketsthreaded_plugin.h \
+            qqmlwebsocketthreaded.h
 
-SOURCES +=  qmlwebsockets_plugin.cpp \
-            qqmlwebsocket.cpp
+SOURCES +=  qmlwebsocketsthreaded_plugin.cpp \
+            qqmlwebsocketthreaded.cpp
 
 OTHER_FILES += qmldir
 
