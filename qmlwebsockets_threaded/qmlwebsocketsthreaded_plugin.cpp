@@ -1,9 +1,10 @@
 /****************************************************************************
 **
+** Copyright (C) 2017 Nikita Skovoroda <chalkerx@gmail.com>.
 ** Copyright (C) 2016 Kurt Pattyn <pattyn.kurt@gmail.com>.
 ** Contact: https://www.qt.io/licensing/
 **
-** This file is part of the QtWebSockets module of the Qt Toolkit.
+** This file is based on the part of the QtWebSockets module of the Qt Toolkit.
 **
 ** $QT_BEGIN_LICENSE:LGPL$
 ** Commercial License Usage
@@ -45,14 +46,14 @@
 
 QT_BEGIN_NAMESPACE
 
-void QtWebSocketsDeclarativeModule::registerTypes(const char *uri)
+void QtWebSocketsThreadedDeclarativeModule::registerTypes(const char *uri)
 {
-    // ### Qt 6: Remove support for the "Qt.WebSockets" QML module.
-    Q_ASSERT(uri == QLatin1String("QtWebSockets") || uri == QLatin1String("Qt.WebSockets"));
+    Q_ASSERT(uri == QLatin1String("QtWebSocketsThreaded"));
 
     // @uri QtWebSockets
-    qmlRegisterType<QQmlWebSocket>(uri, 1 /*major*/, 0 /*minor*/, "WebSocket");
-    qmlRegisterType<QQmlWebSocket, 1>(uri, 1 /*major*/, 1 /*minor*/, "WebSocket");
+    qRegisterMetaType<QAbstractSocket::SocketState>("QAbstractSocket::SocketState");
+    qmlRegisterType<QQmlWebSocketThreaded>(uri, 1 /*major*/, 0 /*minor*/, "WebSocket");
+    qmlRegisterType<QQmlWebSocketThreaded, 1>(uri, 1 /*major*/, 1 /*minor*/, "WebSocket");
 }
 
 QT_END_NAMESPACE

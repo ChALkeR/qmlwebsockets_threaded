@@ -1,9 +1,10 @@
 /****************************************************************************
 **
+** Copyright (C) 2017 Nikita Skovoroda <chalkerx@gmail.com>.
 ** Copyright (C) 2016 Kurt Pattyn <pattyn.kurt@gmail.com>.
 ** Contact: https://www.qt.io/licensing/
 **
-** This file is part of the QtWebSockets module of the Qt Toolkit.
+** This file is based on the part of the QtWebSockets module of the Qt Toolkit.
 **
 ** $QT_BEGIN_LICENSE:LGPL$
 ** Commercial License Usage
@@ -45,19 +46,19 @@
 static void initResources()
 {
 #ifdef QT_STATIC
-    Q_INIT_RESOURCE(qmake_QtWebSockets);
+    Q_INIT_RESOURCE(qmake_QtWebSocketsThreaded);
 #endif
 }
 
 QT_BEGIN_NAMESPACE
 
-class QtWebSocketsDeclarativeModule : public QQmlExtensionPlugin
+class QtWebSocketsThreadedDeclarativeModule : public QQmlExtensionPlugin
 {
     Q_OBJECT
     Q_PLUGIN_METADATA(IID QQmlExtensionInterface_iid)
 
 public:
-    QtWebSocketsDeclarativeModule(QObject *parent = 0) : QQmlExtensionPlugin(parent) { initResources(); }
+    QtWebSocketsThreadedDeclarativeModule(QObject *parent = 0) : QQmlExtensionPlugin(parent) { initResources(); }
     void registerTypes(const char *uri);
 };
 

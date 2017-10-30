@@ -1,9 +1,10 @@
 /****************************************************************************
 **
+** Copyright (C) 2017 Nikita Skovoroda <chalkerx@gmail.com>.
 ** Copyright (C) 2016 Kurt Pattyn <pattyn.kurt@gmail.com>.
 ** Contact: https://www.qt.io/licensing/
 **
-** This file is part of the QtWebSockets module of the Qt Toolkit.
+** This file is based on the part of the QtWebSockets module of the Qt Toolkit.
 **
 ** $QT_BEGIN_LICENSE:LGPL$
 ** Commercial License Usage
@@ -39,12 +40,12 @@
 
 /*!
     \qmltype WebSocket
-    \instantiates QQmlWebSocket
+    \instantiates QQmlWebSocketThreaded
     \since 5.3
 
     \inqmlmodule QtWebSockets
     \ingroup websockets-qml
-    \brief QML interface to QWebSocket.
+    \brief QML interface to QWebSocketThreaded.
 
     WebSockets is a web technology providing full-duplex communications channels over a
     single TCP connection.
@@ -115,11 +116,11 @@
   */
 
 #include "qqmlwebsocketthreaded.h"
-#include <QtWebSockets/QWebSocket>
+#include "qwebsocketthreaded.h"
 
 QT_BEGIN_NAMESPACE
 
-QQmlWebSocket::QQmlWebSocket(QObject *parent) :
+QQmlWebSocketThreaded::QQmlWebSocketThreaded(QObject *parent) :
     QObject(parent),
     m_webSocket(),
     m_status(Closed),
@@ -130,7 +131,7 @@ QQmlWebSocket::QQmlWebSocket(QObject *parent) :
 {
 }
 
-QQmlWebSocket::QQmlWebSocket(QWebSocket *socket, QObject *parent) :
+QQmlWebSocketThreaded::QQmlWebSocketThreaded(QWebSocketThreaded *socket, QObject *parent) :
     QObject(parent),
     m_status(Closed),
     m_url(socket->requestUrl()),
@@ -142,11 +143,11 @@ QQmlWebSocket::QQmlWebSocket(QWebSocket *socket, QObject *parent) :
     onStateChanged(socket->state());
 }
 
-QQmlWebSocket::~QQmlWebSocket()
+QQmlWebSocketThreaded::~QQmlWebSocketThreaded()
 {
 }
 
-qint64 QQmlWebSocket::sendTextMessage(const QString &message)
+qint64 QQmlWebSocketThreaded::sendTextMessage(const QString &message)
 {
     if (m_status != Open) {
         setErrorString(tr("Messages can only be sent when the socket is open."));
@@ -156,7 +157,7 @@ qint64 QQmlWebSocket::sendTextMessage(const QString &message)
     return m_webSocket->sendTextMessage(message);
 }
 
-qint64 QQmlWebSocket::sendBinaryMessage(const QByteArray &message)
+qint64 QQmlWebSocketThreaded::sendBinaryMessage(const QByteArray &message)
 {
     if (m_status != Open) {
         setErrorString(tr("Messages can only be sent when the socket is open."));
@@ -166,12 +167,12 @@ qint64 QQmlWebSocket::sendBinaryMessage(const QByteArray &message)
     return m_webSocket->sendBinaryMessage(message);
 }
 
-QUrl QQmlWebSocket::url() const
+QUrl QQmlWebSocketThreaded::url() const
 {
     return m_url;
 }
 
-void QQmlWebSocket::setUrl(const QUrl &url)
+void QQmlWebSocketThreaded::setUrl(const QUrl &url)
 {
     if (m_url == url) {
         return;
@@ -184,58 +185,58 @@ void QQmlWebSocket::setUrl(const QUrl &url)
     open();
 }
 
-QQmlWebSocket::Status QQmlWebSocket::status() const
+QQmlWebSocketThreaded::Status QQmlWebSocketThreaded::status() const
 {
     return m_status;
 }
 
-QString QQmlWebSocket::errorString() const
+QString QQmlWebSocketThreaded::errorString() const
 {
     return m_errorString;
 }
 
-void QQmlWebSocket::classBegin()
+void QQmlWebSocketThreaded::classBegin()
 {
     m_componentCompleted = false;
-    m_errorString = tr("QQmlWebSocket is not ready.");
+    m_errorString = tr("QQmlWebSocketThreaded is not ready.");
     m_status = Closed;
 }
 
-void QQmlWebSocket::componentComplete()
+void QQmlWebSocketThreaded::componentComplete()
 {
-    setSocket(new QWebSocket);
+    setSocket(new QWebSocketThreaded);
 
     m_componentCompleted = true;
 
     open();
 }
 
-void QQmlWebSocket::setSocket(QWebSocket *socket)
+void QQmlWebSocketThreaded::setSocket(QWebSocketThreaded *socket)
 {
     m_webSocket.reset(socket);
     if (m_webSocket) {
         // explicit ownership via QScopedPointer
         m_webSocket->setParent(Q_NULLPTR);
-        connect(m_webSocket.data(), &QWebSocket::textMessageReceived,
-                this, &QQmlWebSocket::textMessageReceived);
-        connect(m_webSocket.data(), &QWebSocket::binaryMessageReceived,
-                this, &QQmlWebSocket::binaryMessageReceived);
-        typedef void (QWebSocket::* ErrorSignal)(QAbstractSocket::SocketError);
-        connect(m_webSocket.data(), static_cast<ErrorSignal>(&QWebSocket::error),
-                this, &QQmlWebSocket::onError);
-        connect(m_webSocket.data(), &QWebSocket::stateChanged,
-                this, &QQmlWebSocket::onStateChanged);
+        connect(m_webSocket.data(), &QWebSocketThreaded::textMessageReceived,
+                this, &QQmlWebSocketThreaded::textMessageReceived);
+        connect(m_webSocket.data(), &QWebSocketThreaded::binaryMessageReceived,
+                this, &QQmlWebSocketThreaded::binaryMessageReceived);
+        typedef void (QWebSocketThreaded::* ErrorSignal)(QAbstractSocket::SocketError);
+        connect(m_webSocket.data(), static_cast<ErrorSignal>(&QWebSocketThreaded::error),
+                this, &QQmlWebSocketThreaded::onError);
+        connect(m_webSocket.data(), &QWebSocketThreaded::stateChanged,
+                this, &QQmlWebSocketThreaded::onStateChanged);
     }
 }
 
-void QQmlWebSocket::onError(QAbstractSocket::SocketError error)
+void QQmlWebSocketThreaded::onError(QAbstractSocket::SocketError error)
 {
     Q_UNUSED(error)
     setErrorString(m_webSocket->errorString());
     setStatus(Error);
 }
 
-void QQmlWebSocket::onStateChanged(QAbstractSocket::SocketState state)
+void QQmlWebSocketThreaded::onStateChanged(QAbstractSocket::SocketState state)
 {
     switch (state)
     {
@@ -269,7 +270,7 @@ void QQmlWebSocket::onStateChanged(QAbstractSocket::SocketState state)
     }
 }
 
-void QQmlWebSocket::setStatus(QQmlWebSocket::Status status)
+void QQmlWebSocketThreaded::setStatus(QQmlWebSocketThreaded::Status status)
 {
     if (m_status == status) {
         return;
@@ -281,7 +282,7 @@ void QQmlWebSocket::setStatus(QQmlWebSocket::Status status)
     Q_EMIT statusChanged(m_status);
 }
 
-void QQmlWebSocket::setActive(bool active)
+void QQmlWebSocketThreaded::setActive(bool active)
 {
     if (m_isActive == active) {
         return;
@@ -298,26 +299,26 @@ void QQmlWebSocket::setActive(bool active)
     }
 }
 
-bool QQmlWebSocket::isActive() const
+bool QQmlWebSocketThreaded::isActive() const
 {
     return m_isActive;
 }
 
-void QQmlWebSocket::open()
+void QQmlWebSocketThreaded::open()
 {
     if (m_componentCompleted && m_isActive && m_url.isValid() && Q_LIKELY(m_webSocket)) {
         m_webSocket->open(m_url);
     }
 }
 
-void QQmlWebSocket::close()
+void QQmlWebSocketThreaded::close()
 {
     if (m_componentCompleted && Q_LIKELY(m_webSocket)) {
         m_webSocket->close();
     }
 }
 
-void QQmlWebSocket::setErrorString(QString errorString)
+void QQmlWebSocketThreaded::setErrorString(QString errorString)
 {
     if (m_errorString == errorString) {
         return;

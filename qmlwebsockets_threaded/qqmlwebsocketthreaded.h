@@ -1,9 +1,10 @@
 /****************************************************************************
 **
+** Copyright (C) 2017 Nikita Skovoroda <chalkerx@gmail.com>.
 ** Copyright (C) 2016 Kurt Pattyn <pattyn.kurt@gmail.com>.
 ** Contact: https://www.qt.io/licensing/
 **
-** This file is part of the QtWebSockets module of the Qt Toolkit.
+** This file is based on the part of the QtWebSockets module of the Qt Toolkit.
 **
 ** $QT_BEGIN_LICENSE:LGPL$
 ** Commercial License Usage
@@ -44,14 +45,14 @@
 #include <QQmlParserStatus>
 #include <QtQml>
 #include <QScopedPointer>
-#include <QtWebSockets/QWebSocket>
+#include "qwebsocketthreaded.h"
 
 QT_BEGIN_NAMESPACE
 
-class QQmlWebSocket : public QObject, public QQmlParserStatus
+class QQmlWebSocketThreaded : public QObject, public QQmlParserStatus
 {
     Q_OBJECT
-    Q_DISABLE_COPY(QQmlWebSocket)
+    Q_DISABLE_COPY(QQmlWebSocketThreaded)
     Q_INTERFACES(QQmlParserStatus)
 
     Q_PROPERTY(QUrl url READ url WRITE setUrl NOTIFY urlChanged)
@@ -60,9 +61,9 @@ class QQmlWebSocket : public QObject, public QQmlParserStatus
     Q_PROPERTY(bool active READ isActive WRITE setActive NOTIFY activeChanged)
 
 public:
-    explicit QQmlWebSocket(QObject *parent = 0);
-    explicit QQmlWebSocket(QWebSocket *socket, QObject *parent = 0);
-    virtual ~QQmlWebSocket();
+    explicit QQmlWebSocketThreaded(QObject *parent = 0);
+    explicit QQmlWebSocketThreaded(QWebSocketThreaded *socket, QObject *parent = 0);
+    virtual ~QQmlWebSocketThreaded();
 
     enum Status
     {
@@ -102,7 +103,7 @@ private Q_SLOTS:
     void onStateChanged(QAbstractSocket::SocketState state);
 
 private:
-    QScopedPointer<QWebSocket> m_webSocket;
+    QScopedPointer<QWebSocketThreaded> m_webSocket;
     Status m_status;
     QUrl m_url;
     bool m_isActive;
@@ -110,7 +111,7 @@ private:
     QString m_errorString;
 
     // takes ownership of the socket
-    void setSocket(QWebSocket *socket);
+    void setSocket(QWebSocketThreaded *socket);
     void setStatus(Status status);
     void open();
     void close();
