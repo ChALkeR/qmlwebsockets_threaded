@@ -60,3 +60,5 @@ mkspecs/
 # qmlwebsockets_treaded added
 **/qml
 .qmake.stash
+*.qmlc
+*.jsc
