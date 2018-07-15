@@ -43,13 +43,6 @@
 
 #include <QQmlExtensionPlugin>
 
-static void initResources()
-{
-#ifdef QT_STATIC
-    Q_INIT_RESOURCE(qmake_QtWebSocketsThreaded);
-#endif
-}
-
 QT_BEGIN_NAMESPACE
 
 class QtWebSocketsThreadedDeclarativeModule : public QQmlExtensionPlugin
@@ -58,7 +51,7 @@ class QtWebSocketsThreadedDeclarativeModule : public QQmlExtensionPlugin
     Q_PLUGIN_METADATA(IID QQmlExtensionInterface_iid)
 
 public:
-    QtWebSocketsThreadedDeclarativeModule(QObject *parent = 0) : QQmlExtensionPlugin(parent) { initResources(); }
+    QtWebSocketsThreadedDeclarativeModule(QObject *parent = 0) : QQmlExtensionPlugin(parent) { }
     void registerTypes(const char *uri);
 };
 
