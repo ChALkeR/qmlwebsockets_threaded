@@ -51,6 +51,7 @@ void QtWebSocketsThreadedDeclarativeModule::registerTypes(const char *uri)
     Q_ASSERT(uri == QLatin1String("QtWebSocketsThreaded"));
 
     // @uri QtWebSockets
+    qRegisterMetaType<QWebSocketProtocol::CloseCode>("QWebSocketProtocol::CloseCode");
     qRegisterMetaType<QAbstractSocket::SocketState>("QAbstractSocket::SocketState");
     qmlRegisterType<QQmlWebSocketThreaded>(uri, 1 /*major*/, 0 /*minor*/, "WebSocket");
     qmlRegisterType<QQmlWebSocketThreaded, 1>(uri, 1 /*major*/, 1 /*minor*/, "WebSocket");
